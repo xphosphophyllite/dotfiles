@@ -9,20 +9,40 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #011329
-background-alt = #011329
+background = #00000000
+background-alt = #00000000
 ;foreground = ${xrdb:color7:#222}
-foreground = #efa76e
+foreground = #faf2ef
 foreground-alt = #555
 primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
-accent = #ea7b74
+accent = #e68b7e
+violet = #6c3380
+red = #66313b
+blue = #274289
+blue2 = #507b81
+blue3 = #363d5a
+blue4 = #2f506f
+yellow = #9d5c32
+green = #72a159
+green2 = #6e8676
+rust = #604951
+beige = #484540
+pink = #f3afa2
+
+maroon = #783c46
+orange = #ab6a32
+teal = #617667
+peach = #f3afa2
+olive = #3c5447
+mikublue = #598a84
+indigo = #32313f
 
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 40
+height = 27
 ;offset-x = 1%
 ;offset-y = 1%
 ;radius = 8.0
@@ -33,19 +53,20 @@ background = ${colors.background}
 ;background = #00000000
 foreground = ${colors.foreground}
 
-line-size = 3
+line-size = 1
 line-color = #f00
 
-border-left-size = 280
-border-right-size = 280
+border-left-size = 15
+border-right-size = 15
 border-size = 7
-border-color = #{colors.background}
+;border-bottom-size = 5
+border-color = ${colors.background}
 
 padding = 1
 padding-left = 0
-padding-right = 2
+padding-right = 0
 
-module-margin-left = 1
+module-margin-left = 2
 module-margin-right = 2
 
 ;font-0 = fixed:pixelsize=10;1
@@ -56,15 +77,17 @@ module-margin-right = 2
 ;font-1 = Font Awesome 5 Free Solid:pixelsize=12;3
 ;font-2 = Font Awesome 5 Brands:pixelsize=12;3
 
-font-0 = System San Francisco Font:pixelsize=12;0
-font-1 = Material Icons:pixelsize=12;0
-font-2 = Font Awesome 5 Free:pixelsize=12;3
-font-3 = Icons:pixelsize=12;0
-font-4 = TerminessTTF Nerd Font Mono:pixelsize=12;0
+font-0 = SFNS Display:pixelsize=13;3
+;font-1 = System San Francisco Font:pixelsize=13;1
+font-1 = Material Icons:pixelsize=13;4
+font-2 = Font Awesome 5 Free:pixelsize=13;3
+font-3 = Icons:pixelsize=13;3
+font-4 = TerminessTTF Nerd Font Mono:pixelsize=13;3
+font-5 = Droid Sans Japanese:pixelsize=13;3
 
-modules-left = i3  xwindow
+modules-left = i3 xwindow
 modules-center = mpd date
-modules-right = volume memory cpu wlan eth battery powermenu
+modules-right = memory wlan eth volume battery
 
 ;tray-position = right
 ;tray-padding = 2
@@ -88,6 +111,10 @@ cursor-scroll = ns-resize
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
+label-padding = 2
+;label-background = ${colors.indigo}
+;label-font = 2
+;label-underline = ${colors.accent}
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -119,7 +146,7 @@ label-unmounted-foreground = ${colors.foreground-alt}
 type = internal/bspwm
 
 label-focused = %index%
-label-focused-background = ${colors.background-alt}
+label-focused-background = ${colors.background}
 label-focused-underline= ${colors.primary}
 label-focused-padding = 2
 
@@ -136,6 +163,16 @@ label-empty-padding = 2
 
 [module/i3]
 type = internal/i3
+
+ws-icon-0 = 1;一
+ws-icon-1 = 2;二
+ws-icon-2 = 3;三
+ws-icon-3 = 4;四
+ws-icon-4 = 5;五
+ws-icon-5 = 6;六
+ws-icon-6 = 7;七
+ws-icon-7 = 8;八
+
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
@@ -143,30 +180,35 @@ wrapping-scroll = false
 ; Only show workspaces on the same output as the bar
 ;pin-workspaces = true
 
-label-mode-padding = 2
+label-mode-padding = 1
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
 ; focused = Active workspace on focused monitor
-label-focused = %index%
-label-focused-background = ${module/bspwm.label-focused-background}
-label-focused-underline = ${colors.accent}
+label-focused = %icon%
+label-focused-foreground = #000
+label-focused-background = ${colors.foreground}
+label-focused-underline = ${colors.foreground}
 label-focused-padding = ${module/bspwm.label-focused-padding}
+;label-focused-font = 6
+;label-focused-font = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %index%
+label-unfocused = %icon%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+;label-unfocused-font = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %index%
+label-visible = %icon%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %index%
-label-urgent-background = ${module/bspwm.label-urgent-background}
+label-urgent = %icon%
+label-urgent-underline = ${colors.background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
+label-urgent-foreground = ${colors.pink}
 
 [module/mpd]
 type = internal/mpd
@@ -184,19 +226,24 @@ label-song-ellipsis = true
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label> <bar>
-label = BL
+format = <label> <ramp>
+label = %percentage%%
 
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #ff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.orange}
+
+;bar-width = 10
+;bar-indicator = |
+;bar-indicator-foreground = #ff
+;bar-indicator-font = 2
+;bar-fill = ─
+;bar-fill-font = 2
+;bar-fill-foreground = #9f78e1
+;bar-empty = ─
+;bar-empty-font = 2
+;bar-empty-foreground = ${colors.foreground-alt}
 
 [module/backlight-acpi]
 inherit = module/xbacklight
@@ -206,18 +253,30 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = ""
-format-prefix-foreground = ${colors.foreground}
-format-underline = ${colors.accent}
-label = %percentage:2%%
+;format-background = ${colors.peach}
+format-padding = 0
+format-suffix = ""
+format-suffix-foreground = ${colors.peach}
+;format-underline = ${colors.blue}
+label = "%percentage:2%%"
+label-padding = 0
+
+;format-suffix-background = ${colors.blue}
+format-suffix-padding = 1
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground}
-format-underline = ${colors.accent}
-label = %percentage_used%%
+format-padding = 0
+format-suffix = ""
+;format-suffix-foreground = ${colors.blue2}
+;format-underline = ${colors.blue}
+;format-background = ${colors.olive}
+label = "%percentage_used%%"
+label-padding = 0
+
+;format-suffix-foreground = ${colors.foreground}
+format-suffix-padding = 1
 
 [module/wlan]
 type = internal/network
@@ -225,14 +284,20 @@ interface = wlp2s0
 interval = 3.0
 
 format-connected = <label-connected> <ramp-signal>
-format-connected-underline = ${colors.accent}
-label-connected = %essid%
+;format-connected-underline = ${colors.blue}
+;format-connected-background = ${colors.teal}
+format-connected-padding = 1
+label-connected =  "%essid%"
+label-connected-padding = 0
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
-format-disconnected-underline = ${colors.accent}
-label-disconnected = "Disconnected "
-label-disconnected-foreground = ${colors.foreground}
+;format-disconnected-underline = ${colors.accent}
+format-disconnected-suffix = 
+format-disconnected-suffix-foreground = ${colors.mikublue}
+label-disconnected = "Disconnected"
+label-disconnected-padding = 1
+label-disconnected-foreground = ${colors.mikublue}
 
 ;ramp-signal-0 = 
 ;ramp-signal-1 = 
@@ -240,12 +305,14 @@ label-disconnected-foreground = ${colors.foreground}
 ;ramp-signal-3 = 
 ;ramp-signal-4 = 
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground}
+ramp-signal-0 = ""
+ramp-signal-1 = ""
+ramp-signal-2 = ""
+ramp-signal-3 = ""
+ramp-signal-4 = ""
+;ramp-signal-foreground = ${colors.accent}
+;ramp-signal-background = ${colors.blue}
+ramp-signal-padding = 0
 
 [module/eth]
 type = internal/network
@@ -267,82 +334,90 @@ format-disconnected =
 type = internal/date
 interval = 1
 
-date = "  %A, %B %d  "
+date = "%A, %B %d  "
 ;date-alt = " %Y-%m-%d"
 
-time = "%r  "
+time = "%r"
 ;time-alt = %H:%M:%S
 
 format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${colors.accent}
+;format-underline = ${colors.accent}
+;format-background = ${colors.blue}
 
 label = %date% %time%
+label-padding = 2
+;label-background = ${colors.blue3}
+;label-font = 2
 
 [module/volume]
 type = internal/volume
 
-format-volume = <ramp-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
+format-volume = <label-volume> <ramp-volume>
+format-volume-padding = 1
+label-volume = "%percentage%%"
+;format-volume-underline = ${colors.orange}
+label-volume-padding = 0
+;format-volume-background = ${colors.orange}
 
-format-muted-prefix = ""
-format-muted-foreground = ${colors.foreground}
-label-muted = sound muted
+;format-muted-foreground = ${colors.foreground}
+;format-muted-background = ${colors.blue}
+format-muted-suffix = ""
+format-muted-suffix-foreground = ${colors.beige}
+format-muted-suffix-padding = 1
+label-muted-padding = 0
+label-muted-foreground = ${colors.beige}
+label-muted = "MUTED"
 
-bar-volume-width = 11
-bar-volume-foreground-0 = ${colors.accent}
-bar-volume-foreground-1 = ${colors.accent}
-bar-volume-foreground-2 = ${colors.accent}
-bar-volume-foreground-3 = ${colors.accent}
-bar-volume-foreground-4 = ${colors.accent}
-bar-volume-foreground-5 = ${colors.accent}
-bar-volume-foreground-6 = ${colors.accent}
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-ramp-volume-0 = 
-ramp-volume-1 = 
-ramp-volume-2 = 
+ramp-volume-0 = "" 
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+;ramp-volume-foreground = ${colors.accent}
+ramp-volume-padding = 0
 
 [module/battery]
 type = internal/battery
 battery = BAT0
 adapter = ADP1
-full-at = 95
+full-at = 98
 
-format-charging = <label-charging> <animation-charging> 
-format-charging-underline = ${colors.accent}
+format-charging = <label-charging> <animation-charging>
+;format-charging-underline = ${colors.accent}
+label-charging = "  %percentage%%"
 
-format-discharging = <label-discharging> <ramp-capacity> 
-format-discharging-underline = ${colors.accent}
+format-discharging = <label-discharging> <ramp-capacity>
+format-discharging-padding = 1
+;format-discharging-underline = ${colors.purple}
+;format-background = ${colors.accent2}
+;format-discharging-background = ${colors.purple}
+label-discharging = "%percentage%%"
+label-discharging-padding = 0
 
-format-full-prefix = 
-format-full-prefix-foreground = ${colors.foreground}
-format-full-underline = ${colors.accent}
+format-full-suffix = ""
+;format-full-suffix-foreground = ${colors.accent}
+;format-full-underline = ${colors.accent}
+label-full = " %percentage%% "
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-3 = 
-ramp-capacity-4 = 
-ramp-capacity-5 = 
-ramp-capacity-6 = 
-ramp-capacity-7 = 
-ramp-capacity-8 = 
-ramp-capacity-9 = 
-ramp-capacity-foreground = ${colors.foreground}
+ramp-capacity-0 = "" 
+ramp-capacity-1 = ""
+ramp-capacity-2 = ""
+ramp-capacity-3 = ""
+ramp-capacity-4 = ""
+ramp-capacity-5 = ""
+ramp-capacity-6 = ""
+ramp-capacity-7 = ""
+ramp-capacity-8 = ""
+ramp-capacity-9 = ""
+;ramp-capacity-foreground = ${colors.accent}
+;ramp-capacity-foreground = ${colors.purple}
+ramp-capacity-0-foreground = ${colors.alert}
+ramp-capacity-1-foreground = ${colors.alert}
+ramp-capacity-padding = 0
 
-animation-charging-0 = 
+animation-charging-0 = " "
 ;animation-charging-1 = 
 ;animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground}
+animation-charging-foreground = ${colors.green}
 animation-charging-framerate = 750
 
 [module/temperature]
@@ -407,3 +482,4 @@ margin-top = 5
 margin-bottom = 5
 
 ; vim:ft=dosini
+
