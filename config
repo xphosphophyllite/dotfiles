@@ -8,8 +8,8 @@ set $mod Mod4
 # workspace_layout tabbed <stacking|tabbed>
 
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
-new_window pixel 1
-new_float pixel 1
+new_window none
+new_float none
 
 # Hide borders
 hide_edge_borders none
@@ -27,13 +27,13 @@ font pango:System San Francisco Font 11
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+t exec sakura
+bindsym $mod+Return exec sakura
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+Return exec rofi -show run
+bindsym $mod+space exec rofi -show run
 
 # launch categorized menu
 bindsym $mod+z exec --no-startup-id morc_menu
@@ -44,9 +44,9 @@ bindsym $mod+z exec --no-startup-id morc_menu
 
 #exec --no-startup-id volumeicon
 #bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-exec --no-startup-id pulseaudio
+#exec --no-startup-id pulseaudio
 exec --no-startup-id pa-applet
-bindsym $mod+Ctrl+m exec pavucontrol
+#bindsym $mod+Ctrl+m exec pavucontrol
 
 ################################################################################################
 
@@ -56,17 +56,17 @@ bindsym $mod+Ctrl+m exec pavucontrol
 
 # Start Applications
 bindsym $mod+Ctrl+b exec terminal -e 'bmenu'
-bindsym $mod+F2 exec palemoon
-bindsym $mod+F3 exec pcmanfm
+bindsym $mod+F1 exec opera
+bindsym $mod+F2 exec nautilus
 # bindsym $mod+F3 exec ranger
 bindsym $mod+Shift+F3 exec gksu pcmanfm
 bindsym $mod+F5 exec terminal -e 'mocp'
-#bindsym $mod+t exec --no-startup-id pkill compton
+#bindsym $mod+t exec --no-startup-id pkill compton 
 #bindsym $mod+Ctrl+t exec --no-startup-id compton -b
 bindsym $mod+Shift+d --release exec "killall dunst; exec notify-send 'restart dunst'"
 bindsym Print exec --no-startup-id i3-scrot
-bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+Print --release exec --no-startup-id i3-scrot -s
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
 
@@ -115,10 +115,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+Shift+T floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+T focus mode_toggle
 
 # toggle sticky
 bindsym $mod+Shift+s sticky toggle
@@ -192,6 +192,7 @@ for_window [class="Nautilus"] floating enable
 for_window [class="Thunar"] floating enable
 for_window [class="Firefox"] floating enable resize set 640 480
 for_window [class="Sakura"] floating enable
+for_window [class="Mousepad"] floating enable
 for_window [title="alsamixer"] floating enable
 for_window [class="Calamares"] floating enable
 for_window [class="Clipgrab"] floating enable
@@ -280,8 +281,8 @@ bindsym $mod+9 exec --no-startup-id blurlock
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id nitrogen --restore; sleep 1; 
-exec --no-startup-id compton -b -f -c
-exec --no-startup-id wal -R
+exec --no-startup-id compton -b -f -c --respect-prop-shadow
+exec --no-startup-id wal -R -n
 #exec --no-startup-id manjaro-hello
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
@@ -362,9 +363,9 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Theme colors
 # class                   border  backgr. text    indic.   child_border
-  client.focused          #ea7b74 #ea7b74 #80FFF9 #FDF6E3
-  client.focused_inactive #efa76e #efa76e #1ABC9C #454948
-  client.unfocused        #efa76e #efa76e #1ABC9C #454948
+  client.focused          #faf2ef #faf2ef #80FFF9 #FDF6E3
+  client.focused_inactive #000000 #000000 #1ABC9C #454948
+  client.unfocused        #000000 #000000 #1ABC9C #454948
   client.urgent           #CB4B16 #FDF6E3 #1ABC9C #268BD2
   client.placeholder      #000000 #0c0c0c #ffffff #000000 
 
